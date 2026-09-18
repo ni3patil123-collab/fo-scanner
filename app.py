@@ -1070,19 +1070,3 @@ def startup():
             repr(e)
         )
 
-"requirements.txt"
-
-:::writing{variant="standard" id="74106" title="Backend requirements.txt"}
-
-fastapi
-uvicorn[standard]
-pandas
-requests
-pyotp
-smartapi-python
-logzero
-websocket-client
-
-पण अजून एक गोष्ट बाकी आहे: वरचा backend Scanner 1 साठी Angel One candles वापरतो. Scanner 2 मध्ये OI बनावट करून टाकलेला नाही — कारण live OI चा exact Angel One response/account endpoint verify करूनच जोडायला हवा.
-
-म्हणून पुढचा भाग मी Angel One च्या live OI feed + frontend connection साठी करेन.
