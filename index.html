@@ -1,1 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>F&O Scanner</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#07111f;
+  color:#edf5ff;
+  font-family:Arial,sans-serif;
+}
+.app{
+  max-width:600px;
+  margin:auto;
+  padding:12px;
+}
+.header{
+  background:#0d1b2d;
+  border:1px solid #203752;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:12px;
+}
+.title{
+  font-size:24px;
+  font-weight:800;
+}
+.sub{
+  color:#8fa6bd;
+  font-size:12px;
+  margin-top:5px;
+}
+.live{
+  display:inline-block;
+  margin-top:10px;
+  padding:5px 10px;
+  border-radius:20px;
+  background:#123b2a;
+  color:#54e391;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.scanner{
+  background:#0d1b2d;
+  border:1px solid #203752;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:12px;
+}
+.scanner-title{
+  font-size:17px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+.controls{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-bottom:12px;
+}
+.btn{
+  border:1px solid #35516e;
+  background:#13263b;
+  color:#a9bfd5;
+  padding:9px 5px;
+  border-radius:9px;
+  font-size:12px;
+  font-weight:bold;
+}
+.btn.on{
+  background:#174d38;
+  border-color:#35c982;
+  color:#62f0a5;
+}
+.btn.off{
+  background:#321b23;
+  border-color:#71404d;
+  color:#ff8498;
+}
+
+.stock{
+  background:#11243a;
+  border-radius:12px;
+  padding:12px;
+  margin-top:8px;
+  border-left:4px solid #35516e;
+}
+.stock.buy{border-left-color:#32d583}
+.stock.sell{border-left-color:#ff596d}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.name{
+  font-weight:800;
+  font-size:15px;
+}
+.badge{
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:10px;
+  font-weight:bold;
+}
+.buy-badge{
+  background:#123e2c;
+  color:#5cf0a5;
+}
+.sell-badge{
+  background:#481d27;
+  color:#ff8190;
+}
+.info{
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+  color:#91a9bf;
+  font-size:11px;
+}
+.pass{
+  color:#ffd166;
+}
+.empty{
+  color:#71879b;
+  text-align:center;
+  padding:12px;
+  font-size:12px;
+}
+
+.footer{
+  text-align:center;
+  color:#60788f;
+  font-size:10px;
+  padding:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <div class="title">F&O SCANNER</div>
+    <div class="sub">09:15 START • PASS TIME LOCKED</div>
+    <div class="live">● LIVE DEMO</div>
+  </div>
+
+  <!-- SCANNER 1 -->
+  <div class="scanner">
+    <div class="scanner-title">🚀 INTRADAY BOOSTER</div>
+
+    <div class="controls">
+      <button class="btn on" data-scanner="booster" data-key="buy">BUY ON</button>
+      <button class="btn on" data-scanner="booster" data-key="sell">SELL ON</button>
+      <button class="btn on" data-scanner="booster" data-key="pdh">PDH ON</button>
+      <button class="btn on" data-scanner="booster" data-key="pdl">PDL ON</button>
+    </div>
+
+    <div id="boosterStocks"></div>
+  </div>
+
+
+  <!-- SCANNER 2 -->
+  <div class="scanner">
+    <div class="scanner-title">🏦 INSTITUTIONAL FLOW</div>
+
+    <div class="controls">
+      <button class="btn on" data-scanner="flow" data-key="buy">BUY ON</button>
+      <button class="btn on" data-scanner="flow" data-key="sell">SELL ON</button>
+      <button class="btn on" data-scanner="flow" data-key="pdh">PDH ON</button>
+      <button class="btn on" data-scanner="flow" data-key="pdl">PDL ON</button>
+    </div>
+
+    <div id="flowStocks"></div>
+  </div>
+
+
+  <!-- DOUBLE CONFIRMATION -->
+  <div class="scanner">
+    <div class="scanner-title">🔥 DOUBLE CONFIRMATION</div>
+
+    <button
+      id="doubleBtn"
+      class="btn on"
+      style="width:100%;"
+      data-scanner="double"
+      data-key="double">
+      DOUBLE CONFIRMATION ON
+    </button>
+
+    <div id="doubleStocks"></div>
+  </div>
+
+
+  <div class="footer">
+    F&O Scanner • Today Only • Demo Interface
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SETTINGS
+========================= */
+
+const settings = {
+
+  booster:{
+    buy:true,
+    sell:true,
+    pdh:true,
+    pdl:true
+  },
+
+  flow:{
+    buy:true,
+    sell:true,
+    pdh:true,
+    pdl:true
+  },
+
+  double:true
+};
+
+
+/* =========================
+   DEMO DATA
+========================= */
+
+const boosterData = [
+
+  {
+    name:"RELIANCE",
+    side:"BUY",
+    price:"1,482.30",
+    rvol:"1.72",
+    level:"PDH",
+    time:"09:27"
+  },
+
+  {
+    name:"TATAMOTORS",
+    side:"BUY",
+    price:"742.80",
+    rvol:"1.58",
+    level:"PDL",
+    time:"09:31"
+  },
+
+  {
+    name:"SBIN",
+    side:"SELL",
+    price:"912.40",
+    rvol:"1.64",
+    level:"PDH",
+    time:"09:36"
+  }
+
+];
+
+
+const flowData = [
+
+  {
+    name:"ICICIBANK",
+    side:"BUY",
+    price:"1,431.20",
+    rvol:"2.14",
+    level:"PDH",
+    time:"09:29"
+  },
+
+  {
+    name:"HDFCBANK",
+    side:"SELL",
+    price:"986.60",
+    rvol:"1.91",
+    level:"PDL",
+    time:"09:34"
+  },
+
+  {
+    name:"AXISBANK",
+    side:"BUY",
+    price:"1,238.50",
+    rvol:"1.66",
+    level:"PDH",
+    time:"09:41"
+  }
+
+];
+
+
+/* =========================
+   RENDER STOCK
+========================= */
+
+function stockHTML(stock){
+
+  const sideClass =
+    stock.side === "BUY"
+      ? "buy"
+      : "sell";
+
+  const badgeClass =
+    stock.side === "BUY"
+      ? "buy-badge"
+      : "sell-badge";
+
+  return `
+    <div class="stock ${sideClass}">
+
+      <div class="row">
+
+        <div class="name">
+          ${stock.name}
+        </div>
+
+        <div class="badge ${badgeClass}">
+          ${stock.side}
+        </div>
+
+      </div>
+
+      <div class="info">
+
+        <span>
+          LTP ₹${stock.price}
+        </span>
+
+        <span>
+          RVOL ${stock.rvol}
+        </span>
+
+        <span>
+          ${stock.level}
+        </span>
+
+        <span class="pass">
+          PASS ${stock.time}
+        </span>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+function filterData(data, scanner){
+
+  return data.filter(stock => {
+
+    if(stock.side === "BUY" && !settings[scanner].buy)
+      return false;
+
+    if(stock.side === "SELL" && !settings[scanner].sell)
+      return false;
+
+    if(stock.level === "PDH" && !settings[scanner].pdh)
+      return false;
+
+    if(stock.level === "PDL" && !settings[scanner].pdl)
+      return false;
+
+    return true;
+  });
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function render(){
+
+  const booster =
+    filterData(boosterData,"booster");
+
+  const flow =
+    filterData(flowData,"flow");
+
+
+  document.getElementById("boosterStocks").innerHTML =
+    booster.length
+      ? booster.map(stockHTML).join("")
+      : `<div class="empty">No matching BUY/SELL signal</div>`;
+
+
+  document.getElementById("flowStocks").innerHTML =
+    flow.length
+      ? flow.map(stockHTML).join("")
+      : `<div class="empty">No matching BUY/SELL signal</div>`;
+
+
+  renderDouble();
+
+}
+
+
+/* =========================
+   DOUBLE CONFIRMATION
+========================= */
+
+function renderDouble(){
+
+  const box =
+    document.getElementById("doubleStocks");
+
+  if(!settings.double){
+
+    box.innerHTML =
+      `<div class="empty">Double Confirmation OFF</div>`;
+
+    return;
+  }
+
+
+  const confirmed = [];
+
+
+  boosterData.forEach(b => {
+
+    const match =
+      flowData.find(f =>
+        f.name === b.name &&
+        f.side === b.side
+      );
+
+    if(match){
+
+      confirmed.push({
+        ...b,
+        rvol:
+          Math.max(
+            Number(b.rvol),
+            Number(match.rvol)
+          ).toFixed(2),
+        level:"CONFIRMED"
+      });
+
+    }
+
+  });
+
+
+  box.innerHTML =
+    confirmed.length
+      ? confirmed.map(stockHTML).join("")
+      : `<div class="empty">No double confirmation</div>`;
+}
+
+
+/* =========================
+   BUTTON CONTROL
+========================= */
+
+document
+  .querySelectorAll(".btn[data-scanner]")
+  .forEach(button => {
+
+    button.addEventListener("click",function(){
+
+      const scanner =
+        this.dataset.scanner;
+
+      const key =
+        this.dataset.key;
+
+
+      /* DOUBLE */
+
+      if(scanner === "double"){
+
+        settings.double =
+          !settings.double;
+
+        this.classList.toggle(
+          "on",
+          settings.double
+        );
+
+        this.classList.toggle(
+          "off",
+          !settings.double
+        );
+
+        this.textContent =
+          settings.double
+            ? "DOUBLE CONFIRMATION ON"
+            : "DOUBLE CONFIRMATION OFF";
+
+        render();
+
+        return;
+      }
+
+
+      /* NORMAL TOGGLE */
+
+      settings[scanner][key] =
+        !settings[scanner][key];
+
+
+      const isOn =
+        settings[scanner][key];
+
+
+      this.classList.toggle(
+        "on",
+        isOn
+      );
+
+      this.classList.toggle(
+        "off",
+        !isOn
+      );
+
+
+      this.textContent =
+        key.toUpperCase() +
+        (isOn ? " ON" : " OFF");
+
+
+      render();
+
+    });
+
+  });
+
+
+/* FIRST LOAD */
+
+render();
+
+</script>
+
+</body>
+</html>
