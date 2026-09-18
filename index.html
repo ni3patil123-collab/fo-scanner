@@ -1,144 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>F&O Scanner</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F&O SCANNER</title>
 
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:#07111f;
-  color:#edf5ff;
-  font-family:Arial,sans-serif;
+ margin:0;
+ background:#07111f;
+ color:#edf5ff;
+ font-family:Arial,sans-serif;
 }
 .app{
-  max-width:600px;
-  margin:auto;
-  padding:12px;
+ max-width:650px;
+ margin:auto;
+ padding:10px;
 }
-.header{
-  background:#0d1b2d;
-  border:1px solid #203752;
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:12px;
+.header,.scanner{
+ background:#0d1b2d;
+ border:1px solid #203752;
+ border-radius:15px;
+ padding:14px;
+ margin-bottom:10px;
 }
 .title{
-  font-size:24px;
-  font-weight:800;
+ font-size:23px;
+ font-weight:800;
 }
 .sub{
-  color:#8fa6bd;
-  font-size:12px;
-  margin-top:5px;
+ color:#8da5bd;
+ font-size:11px;
+ margin-top:4px;
 }
 .live{
-  display:inline-block;
-  margin-top:10px;
-  padding:5px 10px;
-  border-radius:20px;
-  background:#123b2a;
-  color:#54e391;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.scanner{
-  background:#0d1b2d;
-  border:1px solid #203752;
-  border-radius:16px;
-  padding:14px;
-  margin-bottom:12px;
+ display:inline-block;
+ margin-top:8px;
+ padding:5px 9px;
+ border-radius:20px;
+ background:#123d2b;
+ color:#58e89b;
+ font-size:11px;
+ font-weight:700;
 }
 .scanner-title{
-  font-size:17px;
-  font-weight:800;
-  margin-bottom:12px;
+ font-size:17px;
+ font-weight:800;
+ margin-bottom:10px;
 }
 .controls{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-  margin-bottom:12px;
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:6px;
 }
 .btn{
-  border:1px solid #35516e;
-  background:#13263b;
-  color:#a9bfd5;
-  padding:9px 5px;
-  border-radius:9px;
-  font-size:12px;
-  font-weight:bold;
+ border:1px solid #36516b;
+ background:#14283d;
+ color:#a8bed3;
+ border-radius:8px;
+ padding:9px 3px;
+ font-size:11px;
+ font-weight:700;
 }
 .btn.on{
-  background:#174d38;
-  border-color:#35c982;
-  color:#62f0a5;
+ background:#164b36;
+ border-color:#31c982;
+ color:#5af0a2;
 }
 .btn.off{
-  background:#321b23;
-  border-color:#71404d;
-  color:#ff8498;
+ background:#421d27;
+ border-color:#75424e;
+ color:#ff8797;
 }
-
 .stock{
-  background:#11243a;
-  border-radius:12px;
-  padding:12px;
-  margin-top:8px;
-  border-left:4px solid #35516e;
+ margin-top:7px;
+ background:#11243a;
+ border-radius:10px;
+ padding:10px;
+ border-left:4px solid #50677e;
 }
 .stock.buy{border-left-color:#32d583}
 .stock.sell{border-left-color:#ff596d}
-
+.stock.confirmed{border-left-color:#ffd166}
 .row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
 }
 .name{
-  font-weight:800;
-  font-size:15px;
+ font-size:14px;
+ font-weight:800;
 }
 .badge{
-  padding:4px 8px;
-  border-radius:6px;
-  font-size:10px;
-  font-weight:bold;
+ font-size:10px;
+ font-weight:800;
+ padding:4px 7px;
+ border-radius:6px;
 }
 .buy-badge{
-  background:#123e2c;
-  color:#5cf0a5;
+ background:#123d2c;
+ color:#5cf0a5;
 }
 .sell-badge{
-  background:#481d27;
-  color:#ff8190;
+ background:#471d27;
+ color:#ff8190;
+}
+.confirm-badge{
+ background:#493b18;
+ color:#ffd166;
 }
 .info{
-  display:flex;
-  justify-content:space-between;
-  margin-top:8px;
-  color:#91a9bf;
-  font-size:11px;
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:4px;
+ margin-top:8px;
+ color:#91a8bd;
+ font-size:10px;
 }
 .pass{
-  color:#ffd166;
+ color:#ffd166;
+}
+.count{
+ color:#6f879e;
+ font-size:10px;
+ margin-top:9px;
 }
 .empty{
-  color:#71879b;
-  text-align:center;
-  padding:12px;
-  font-size:12px;
+ text-align:center;
+ padding:13px 5px;
+ color:#70879c;
+ font-size:11px;
 }
-
 .footer{
-  text-align:center;
-  color:#60788f;
-  font-size:10px;
-  padding:10px;
+ text-align:center;
+ color:#627b91;
+ font-size:9px;
+ padding:8px;
 }
 </style>
 </head>
@@ -147,403 +145,468 @@ body{
 
 <div class="app">
 
-  <div class="header">
-    <div class="title">F&O SCANNER</div>
-    <div class="sub">09:15 START • PASS TIME LOCKED</div>
-    <div class="live">● LIVE DEMO</div>
-  </div>
-
-  <!-- SCANNER 1 -->
-  <div class="scanner">
-    <div class="scanner-title">🚀 INTRADAY BOOSTER</div>
-
-    <div class="controls">
-      <button class="btn on" data-scanner="booster" data-key="buy">BUY ON</button>
-      <button class="btn on" data-scanner="booster" data-key="sell">SELL ON</button>
-      <button class="btn on" data-scanner="booster" data-key="pdh">PDH ON</button>
-      <button class="btn on" data-scanner="booster" data-key="pdl">PDL ON</button>
-    </div>
-
-    <div id="boosterStocks"></div>
-  </div>
+<div class="header">
+ <div class="title">F&O SCANNER</div>
+ <div class="sub">ALL F&O STOCKS • NO SECTORS • TODAY ONLY</div>
+ <div class="live">● LIVE ENGINE READY</div>
+</div>
 
 
-  <!-- SCANNER 2 -->
-  <div class="scanner">
-    <div class="scanner-title">🏦 INSTITUTIONAL FLOW</div>
+<!-- INTRADAY BOOSTER -->
+<div class="scanner">
 
-    <div class="controls">
-      <button class="btn on" data-scanner="flow" data-key="buy">BUY ON</button>
-      <button class="btn on" data-scanner="flow" data-key="sell">SELL ON</button>
-      <button class="btn on" data-scanner="flow" data-key="pdh">PDH ON</button>
-      <button class="btn on" data-scanner="flow" data-key="pdl">PDL ON</button>
-    </div>
+ <div class="scanner-title">🚀 INTRADAY BOOSTER</div>
 
-    <div id="flowStocks"></div>
-  </div>
+ <div class="controls">
 
+  <button class="btn on"
+   data-scanner="booster"
+   data-key="buy">BUY ON</button>
 
-  <!-- DOUBLE CONFIRMATION -->
-  <div class="scanner">
-    <div class="scanner-title">🔥 DOUBLE CONFIRMATION</div>
+  <button class="btn on"
+   data-scanner="booster"
+   data-key="sell">SELL ON</button>
 
-    <button
-      id="doubleBtn"
-      class="btn on"
-      style="width:100%;"
-      data-scanner="double"
-      data-key="double">
-      DOUBLE CONFIRMATION ON
-    </button>
+  <button class="btn on"
+   data-scanner="booster"
+   data-key="pdh">PDH ON</button>
 
-    <div id="doubleStocks"></div>
-  </div>
+  <button class="btn on"
+   data-scanner="booster"
+   data-key="pdl">PDL ON</button>
+
+ </div>
+
+ <div id="booster"></div>
+
+</div>
 
 
-  <div class="footer">
-    F&O Scanner • Today Only • Demo Interface
-  </div>
+<!-- INSTITUTIONAL FLOW -->
+<div class="scanner">
+
+ <div class="scanner-title">🏦 INSTITUTIONAL FLOW</div>
+
+ <div class="controls">
+
+  <button class="btn on"
+   data-scanner="flow"
+   data-key="buy">BUY ON</button>
+
+  <button class="btn on"
+   data-scanner="flow"
+   data-key="sell">SELL ON</button>
+
+  <button class="btn on"
+   data-scanner="flow"
+   data-key="pdh">PDH ON</button>
+
+  <button class="btn on"
+   data-scanner="flow"
+   data-key="pdl">PDL ON</button>
+
+ </div>
+
+ <div id="flow"></div>
+
+</div>
+
+
+<!-- DOUBLE CONFIRMATION -->
+<div class="scanner">
+
+ <div class="scanner-title">🔥 DOUBLE CONFIRMATION</div>
+
+ <button
+  id="doubleButton"
+  class="btn on"
+  style="width:100%"
+  data-scanner="double"
+  data-key="double">
+  DOUBLE CONFIRMATION ON
+ </button>
+
+ <div id="double"></div>
+
+</div>
+
+
+<div class="footer">
+ F&O universe • No sector classification • Pass time locked
+</div>
 
 </div>
 
 
 <script>
 
-/* =========================
+/* =====================================================
+   F&O UNIVERSE
+   ===================================================== */
+
+const FO_STOCKS = [
+
+"AARTIIND","ABB","ABBOTINDIA","ACC","ADANIENT","ADANIPORTS",
+"ABCAPITAL","ABFRL","ALKEM","AMBUJACEM","APOLLOHOSP",
+"APOLLOTYRE","ASHOKLEY","ASIANPAINT","ASTRAL","ATUL",
+"AUBANK","AUROPHARMA","AXISBANK","BAJAJ-AUTO","BAJFINANCE",
+"BAJAJFINSV","BALKRISIND","BALRAMCHIN","BANDHANBNK","BANKBARODA",
+"BATAINDIA","BEL","BHARATFORG","BHEL","BPCL","BHARTIARTL",
+"BIOCON","BSOFT","BOSCHLTD","BRITANNIA","CANFINHOME","CANBK",
+"CHAMBLFERT","CHOLAFIN","CIPLA","CUB","COALINDIA","COFORGE",
+"COLPAL","CONCOR","COROMANDEL","CROMPTON","CUMMINSIND",
+"DABUR","DALBHARAT","DEEPAKNTR","DELTACORP","DIVISLAB",
+"DIXON","DLF","LALPATHLAB","DRREDDY","EICHERMOT","ESCORTS",
+"EXIDEIND","GAIL","GLENMARK","GMRINFRA","GODREJCP",
+"GODREJPROP","GRANULES","GRASIM","GUJGASLTD","GNFC","HAVELLS",
+"HCLTECH","HDFCAMC","HDFCBANK","HDFCLIFE","HEROMOTOCO",
+"HINDALCO","HAL","HINDCOPPER","HINDPETRO","HINDUNILVR",
+"ICICIBANK","ICICIGI","ICICIPRULI","IDFCFIRSTB","IBULHSGFIN",
+"INDIAMART","IEX","IOC","IRCTC","IGL","INDUSTOWER",
+"INDUSINDBK","NAUKRI","INFY","INTELLECT","INDIGO","IPCALAB",
+"ITC","JINDALSTEL","JKCEMENT","JSWSTEEL","JUBLFOOD",
+"KOTAKBANK","LTTS","LTIM","LT","LAURUSLABS","LICHSGFIN",
+"LUPIN","MGL","M&MFIN","M&M","MANAPPURAM","MARICO","MARUTI",
+"MFSL","METROPOLIS","MOTHERSON","MPHASIS","MRF","MUTHOOTFIN",
+"NATIONALUM","NAVINFLUOR","NESTLEIND","NMDC","NTPC",
+"OBEROIRLTY","ONGC","OFSS","PAGEIND","PERSISTENT","PETRONET",
+"PIIND","PIDILITIND","PEL","POLYCAB","PFC","POWERGRID","PNB",
+"PVRINOX","RAIN","RBLBANK","RECLTD","RELIANCE","SBICARD",
+"SBILIFE","SHREECEM","SHRIRAMFIN","SIEMENS","SRF","SBIN",
+"SAIL","SUNPHARMA","SUNTV","SYNGENE","TATACHEM","TATACOMM",
+"TCS","TATACONSUM","TATAMOTORS","TATAPOWER","TATASTEEL",
+"TECHM","FEDERALBNK","INDIACEM","INDHOTEL","RAMCOCEM","TITAN",
+"TORNTPHARM","TRENT","TVSMOTOR","ULTRACEMCO","UBL","MCDOWELL-N",
+"UPL","VEDL","IDEA","VOLTAS","WHIRLPOOL","WIPRO","ZEEL","ZYDUSLIFE"
+];
+
+
+/* =====================================================
    SETTINGS
-========================= */
+   ===================================================== */
 
-const settings = {
+const settings={
 
-  booster:{
-    buy:true,
-    sell:true,
-    pdh:true,
-    pdl:true
-  },
+ booster:{
+  buy:true,
+  sell:true,
+  pdh:true,
+  pdl:true
+ },
 
-  flow:{
-    buy:true,
-    sell:true,
-    pdh:true,
-    pdl:true
-  },
+ flow:{
+  buy:true,
+  sell:true,
+  pdh:true,
+  pdl:true
+ },
 
-  double:true
+ double:true
 };
 
 
-/* =========================
-   DEMO DATA
-========================= */
+/* =====================================================
+   LIVE DATA WILL COME HERE
+   ===================================================== */
 
-const boosterData = [
+/*
+   IMPORTANT:
 
-  {
-    name:"RELIANCE",
-    side:"BUY",
-    price:"1,482.30",
-    rvol:"1.72",
-    level:"PDH",
-    time:"09:27"
-  },
+   खाली fake LTP/RVOL ठेवलेले नाहीत.
 
-  {
-    name:"TATAMOTORS",
-    side:"BUY",
-    price:"742.80",
-    rvol:"1.58",
-    level:"PDL",
-    time:"09:31"
-  },
+   Backend/API जोडल्यावर प्रत्येक F&O stock साठी:
 
-  {
-    name:"SBIN",
-    side:"SELL",
-    price:"912.40",
-    rvol:"1.64",
-    level:"PDH",
-    time:"09:36"
-  }
+   {
+      symbol,
+      ltp,
+      rvol,
+      side,
+      level,
+      passTime
+   }
 
-];
+   येईल.
+
+   त्यामुळे app fake signal दाखवणार नाही.
+*/
+
+let liveData=[];
 
 
-const flowData = [
+/* =====================================================
+   STOCK CARD
+   ===================================================== */
 
-  {
-    name:"ICICIBANK",
-    side:"BUY",
-    price:"1,431.20",
-    rvol:"2.14",
-    level:"PDH",
-    time:"09:29"
-  },
+function card(stock){
 
-  {
-    name:"HDFCBANK",
-    side:"SELL",
-    price:"986.60",
-    rvol:"1.91",
-    level:"PDL",
-    time:"09:34"
-  },
+ const sideClass=
+   stock.side==="BUY" ? "buy" :
+   stock.side==="SELL" ? "sell" : "confirmed";
 
-  {
-    name:"AXISBANK",
-    side:"BUY",
-    price:"1,238.50",
-    rvol:"1.66",
-    level:"PDH",
-    time:"09:41"
-  }
+ const badgeClass=
+   stock.side==="BUY"
+    ? "buy-badge"
+    : stock.side==="SELL"
+    ? "sell-badge"
+    : "confirm-badge";
 
-];
+ return `
 
+ <div class="stock ${sideClass}">
 
-/* =========================
-   RENDER STOCK
-========================= */
+  <div class="row">
 
-function stockHTML(stock){
+   <div class="name">
+    ${stock.symbol}
+   </div>
 
-  const sideClass =
-    stock.side === "BUY"
-      ? "buy"
-      : "sell";
+   <div class="badge ${badgeClass}">
+    ${stock.side}
+   </div>
 
-  const badgeClass =
-    stock.side === "BUY"
-      ? "buy-badge"
-      : "sell-badge";
+  </div>
 
-  return `
-    <div class="stock ${sideClass}">
+  <div class="info">
 
-      <div class="row">
+   <span>
+    LTP ${stock.ltp ?? "--"}
+   </span>
 
-        <div class="name">
-          ${stock.name}
-        </div>
+   <span>
+    RVOL ${stock.rvol ?? "--"}
+   </span>
 
-        <div class="badge ${badgeClass}">
-          ${stock.side}
-        </div>
+   <span>
+    ${stock.level ?? "--"}
+   </span>
 
-      </div>
+   <span class="pass">
+    PASS ${stock.passTime ?? "--"}
+   </span>
 
-      <div class="info">
+  </div>
 
-        <span>
-          LTP ₹${stock.price}
-        </span>
+ </div>
 
-        <span>
-          RVOL ${stock.rvol}
-        </span>
-
-        <span>
-          ${stock.level}
-        </span>
-
-        <span class="pass">
-          PASS ${stock.time}
-        </span>
-
-      </div>
-
-    </div>
-  `;
+ `;
 }
 
 
-/* =========================
+/* =====================================================
    FILTER
-========================= */
+   ===================================================== */
 
-function filterData(data, scanner){
+function allowed(stock,type){
 
-  return data.filter(stock => {
+ if(stock.side==="BUY" &&
+    !settings[type].buy)
+   return false;
 
-    if(stock.side === "BUY" && !settings[scanner].buy)
-      return false;
+ if(stock.side==="SELL" &&
+    !settings[type].sell)
+   return false;
 
-    if(stock.side === "SELL" && !settings[scanner].sell)
-      return false;
+ if(stock.level==="PDH" &&
+    !settings[type].pdh)
+   return false;
 
-    if(stock.level === "PDH" && !settings[scanner].pdh)
-      return false;
+ if(stock.level==="PDL" &&
+    !settings[type].pdl)
+   return false;
 
-    if(stock.level === "PDL" && !settings[scanner].pdl)
-      return false;
-
-    return true;
-  });
+ return true;
 }
 
 
-/* =========================
+/* =====================================================
    RENDER
-========================= */
+   ===================================================== */
 
 function render(){
 
-  const booster =
-    filterData(boosterData,"booster");
+ const booster=
+   liveData.filter(x=>allowed(x,"booster"));
 
-  const flow =
-    filterData(flowData,"flow");
-
-
-  document.getElementById("boosterStocks").innerHTML =
-    booster.length
-      ? booster.map(stockHTML).join("")
-      : `<div class="empty">No matching BUY/SELL signal</div>`;
+ const flow=
+   liveData.filter(x=>allowed(x,"flow"));
 
 
-  document.getElementById("flowStocks").innerHTML =
-    flow.length
-      ? flow.map(stockHTML).join("")
-      : `<div class="empty">No matching BUY/SELL signal</div>`;
+ document.getElementById("booster").innerHTML=
+
+   booster.length
+    ? `<div class="count">${booster.length} F&O signals</div>`+
+      booster.map(card).join("")
+    : `<div class="empty">
+         Waiting for live F&O scanner data
+       </div>`;
 
 
-  renderDouble();
+ document.getElementById("flow").innerHTML=
+
+   flow.length
+    ? `<div class="count">${flow.length} F&O signals</div>`+
+      flow.map(card).join("")
+    : `<div class="empty">
+         Waiting for live F&O scanner data
+       </div>`;
+
+
+ renderDouble();
 
 }
 
 
-/* =========================
+/* =====================================================
    DOUBLE CONFIRMATION
-========================= */
+   ===================================================== */
 
 function renderDouble(){
 
-  const box =
-    document.getElementById("doubleStocks");
+ const box=
+   document.getElementById("double");
 
-  if(!settings.double){
+ if(!settings.double){
 
-    box.innerHTML =
-      `<div class="empty">Double Confirmation OFF</div>`;
+  box.innerHTML=
+   `<div class="empty">
+      Double Confirmation OFF
+    </div>`;
 
-    return;
+  return;
+ }
+
+
+ /*
+   Same stock + same direction
+   from Booster + Flow.
+ */
+
+ const confirmed=[];
+
+ const symbols=
+   [...new Set(liveData.map(x=>x.symbol))];
+
+
+ symbols.forEach(symbol=>{
+
+  const rows=
+   liveData.filter(x=>x.symbol===symbol);
+
+  const buys=
+   rows.filter(x=>x.side==="BUY");
+
+  const sells=
+   rows.filter(x=>x.side==="SELL");
+
+
+  if(buys.length>=2){
+
+   confirmed.push({
+    symbol,
+    side:"BUY",
+    ltp:buys[0].ltp,
+    rvol:buys[0].rvol,
+    level:"CONFIRMED",
+    passTime:buys[0].passTime
+   });
+
   }
 
 
-  const confirmed = [];
+  if(sells.length>=2){
+
+   confirmed.push({
+    symbol,
+    side:"SELL",
+    ltp:sells[0].ltp,
+    rvol:sells[0].rvol,
+    level:"CONFIRMED",
+    passTime:sells[0].passTime
+   });
+
+  }
+
+ });
 
 
-  boosterData.forEach(b => {
+ box.innerHTML=
 
-    const match =
-      flowData.find(f =>
-        f.name === b.name &&
-        f.side === b.side
-      );
-
-    if(match){
-
-      confirmed.push({
-        ...b,
-        rvol:
-          Math.max(
-            Number(b.rvol),
-            Number(match.rvol)
-          ).toFixed(2),
-        level:"CONFIRMED"
-      });
-
-    }
-
-  });
-
-
-  box.innerHTML =
-    confirmed.length
-      ? confirmed.map(stockHTML).join("")
-      : `<div class="empty">No double confirmation</div>`;
+  confirmed.length
+   ? confirmed.map(card).join("")
+   : `<div class="empty">
+        No double confirmation
+      </div>`;
 }
 
 
-/* =========================
-   BUTTON CONTROL
-========================= */
+/* =====================================================
+   BUTTONS
+   ===================================================== */
 
 document
-  .querySelectorAll(".btn[data-scanner]")
-  .forEach(button => {
+.querySelectorAll(".btn[data-scanner]")
+.forEach(button=>{
 
-    button.addEventListener("click",function(){
+ button.addEventListener("click",()=>{
 
-      const scanner =
-        this.dataset.scanner;
+  const scanner=
+   button.dataset.scanner;
 
-      const key =
-        this.dataset.key;
-
-
-      /* DOUBLE */
-
-      if(scanner === "double"){
-
-        settings.double =
-          !settings.double;
-
-        this.classList.toggle(
-          "on",
-          settings.double
-        );
-
-        this.classList.toggle(
-          "off",
-          !settings.double
-        );
-
-        this.textContent =
-          settings.double
-            ? "DOUBLE CONFIRMATION ON"
-            : "DOUBLE CONFIRMATION OFF";
-
-        render();
-
-        return;
-      }
+  const key=
+   button.dataset.key;
 
 
-      /* NORMAL TOGGLE */
+  if(scanner==="double"){
 
-      settings[scanner][key] =
-        !settings[scanner][key];
+   settings.double=
+    !settings.double;
 
+   button.classList.toggle(
+    "on",
+    settings.double
+   );
 
-      const isOn =
-        settings[scanner][key];
+   button.classList.toggle(
+    "off",
+    !settings.double
+   );
 
+   button.textContent=
+    settings.double
+     ? "DOUBLE CONFIRMATION ON"
+     : "DOUBLE CONFIRMATION OFF";
 
-      this.classList.toggle(
-        "on",
-        isOn
-      );
+   render();
 
-      this.classList.toggle(
-        "off",
-        !isOn
-      );
-
-
-      this.textContent =
-        key.toUpperCase() +
-        (isOn ? " ON" : " OFF");
-
-
-      render();
-
-    });
-
-  });
+   return;
+  }
 
 
-/* FIRST LOAD */
+  settings[scanner][key]=
+   !settings[scanner][key];
+
+
+  const on=
+   settings[scanner][key];
+
+
+  button.classList.toggle("on",on);
+  button.classList.toggle("off",!on);
+
+  button.textContent=
+   key.toUpperCase()+
+   (on ? " ON":" OFF");
+
+  render();
+
+ });
+
+});
+
+
+/* =====================================================
+   START
+   ===================================================== */
 
 render();
 
