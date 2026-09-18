@@ -702,7 +702,7 @@ def calculate_price_volume(stock, df):
 
 
 # ============================================================
-# SCANNER 2 — INDEPENDENT PRICE + OI
+# SCANNER 2 - INDEPENDENT PRICE + OI
 # ============================================================
 
 def classify_oi(price_change, oi_change):
