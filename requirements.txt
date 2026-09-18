@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pandas
+requests
+pyotp
+smartapi-python
+logzero
+websocket-client
