@@ -7,17 +7,20 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
  margin:0;
  background:#07111f;
  color:#edf5ff;
  font-family:Arial,sans-serif;
 }
+
 .app{
  max-width:650px;
  margin:auto;
  padding:10px;
 }
+
 .header,.scanner{
  background:#0d1b2d;
  border:1px solid #203752;
@@ -25,15 +28,18 @@ body{
  padding:14px;
  margin-bottom:10px;
 }
+
 .title{
  font-size:23px;
  font-weight:800;
 }
+
 .sub{
  color:#8da5bd;
  font-size:11px;
  margin-top:4px;
 }
+
 .live{
  display:inline-block;
  margin-top:8px;
@@ -44,16 +50,34 @@ body{
  font-size:11px;
  font-weight:700;
 }
+
 .scanner-title{
  font-size:17px;
  font-weight:800;
  margin-bottom:10px;
 }
+
+.logic{
+ background:#0a1728;
+ border:1px solid #1c334c;
+ border-radius:10px;
+ padding:9px;
+ margin-bottom:9px;
+ color:#9db3c8;
+ font-size:10px;
+ line-height:1.55;
+}
+
+.logic b{
+ color:#dcecff;
+}
+
 .controls{
  display:grid;
  grid-template-columns:repeat(4,1fr);
  gap:6px;
 }
+
 .btn{
  border:1px solid #36516b;
  background:#14283d;
@@ -63,16 +87,19 @@ body{
  font-size:11px;
  font-weight:700;
 }
+
 .btn.on{
  background:#164b36;
  border-color:#31c982;
  color:#5af0a2;
 }
+
 .btn.off{
  background:#421d27;
  border-color:#75424e;
  color:#ff8797;
 }
+
 .stock{
  margin-top:7px;
  background:#11243a;
@@ -80,36 +107,52 @@ body{
  padding:10px;
  border-left:4px solid #50677e;
 }
-.stock.buy{border-left-color:#32d583}
-.stock.sell{border-left-color:#ff596d}
-.stock.confirmed{border-left-color:#ffd166}
+
+.stock.buy{
+ border-left-color:#32d583;
+}
+
+.stock.sell{
+ border-left-color:#ff596d;
+}
+
+.stock.confirmed{
+ border-left-color:#ffd166;
+}
+
 .row{
  display:flex;
  justify-content:space-between;
  align-items:center;
 }
+
 .name{
  font-size:14px;
  font-weight:800;
 }
+
 .badge{
  font-size:10px;
  font-weight:800;
  padding:4px 7px;
  border-radius:6px;
 }
+
 .buy-badge{
  background:#123d2c;
  color:#5cf0a5;
 }
+
 .sell-badge{
  background:#471d27;
  color:#ff8190;
 }
+
 .confirm-badge{
  background:#493b18;
  color:#ffd166;
 }
+
 .info{
  display:grid;
  grid-template-columns:repeat(4,1fr);
@@ -118,25 +161,55 @@ body{
  color:#91a8bd;
  font-size:10px;
 }
+
 .pass{
  color:#ffd166;
 }
+
+.oi-long{
+ color:#5cf0a5;
+}
+
+.oi-short{
+ color:#ff8190;
+}
+
 .count{
  color:#6f879e;
  font-size:10px;
  margin-top:9px;
 }
+
 .empty{
  text-align:center;
  padding:13px 5px;
  color:#70879c;
  font-size:11px;
 }
+
 .footer{
  text-align:center;
  color:#627b91;
  font-size:9px;
  padding:8px;
+}
+
+.engine{
+ margin-top:8px;
+ color:#6e879d;
+ font-size:9px;
+ line-height:1.5;
+}
+
+@media(max-width:430px){
+ .info{
+  grid-template-columns:repeat(2,1fr);
+  row-gap:6px;
+ }
+
+ .controls{
+  grid-template-columns:repeat(2,1fr);
+ }
 }
 </style>
 </head>
@@ -145,35 +218,84 @@ body{
 
 <div class="app">
 
+<!-- HEADER -->
 <div class="header">
+
  <div class="title">F&O SCANNER</div>
- <div class="sub">ALL F&O STOCKS • NO SECTORS • TODAY ONLY</div>
- <div class="live">● LIVE ENGINE READY</div>
+
+ <div class="sub">
+  ALL F&O STOCKS • NO SECTORS • TODAY ONLY
+ </div>
+
+ <div class="live">
+  ● LIVE ENGINE READY
+ </div>
+
+ <div class="engine">
+  Scanner 1: Original 20D Same-Time 5M Cumulative RVOL
+  <br>
+  Scanner 2: Independent Price + OI Institutional Logic
+ </div>
+
 </div>
 
 
-<!-- INTRADAY BOOSTER -->
+<!-- =====================================================
+     1. INTRADAY BOOSTER
+     ===================================================== -->
+
 <div class="scanner">
 
- <div class="scanner-title">🚀 INTRADAY BOOSTER</div>
+ <div class="scanner-title">
+  🚀 INTRADAY BOOSTER
+ </div>
+
+ <div class="logic">
+
+  <b>PRICE + VOLUME LOGIC</b><br>
+
+  5M Price Action • Original 20D Same-Time RVOL •
+  Volume Acceleration • VWAP • EMA20/50 • PDH/PDL •
+  Momentum • BUY/SELL • Pass Time Lock
+
+  <br><br>
+
+  <b>Original RVOL:</b>
+  Same HH:MM 5M cumulative volume compared with
+  previous 20 trading days.
+
+  <br>
+
+  <b>Early RVOL:</b> ≥ 1.20 &nbsp; | &nbsp;
+  <b>Final RVOL:</b> ≥ 1.10
+
+ </div>
 
  <div class="controls">
 
   <button class="btn on"
    data-scanner="booster"
-   data-key="buy">BUY ON</button>
+   data-key="buy">
+   BUY ON
+  </button>
 
   <button class="btn on"
    data-scanner="booster"
-   data-key="sell">SELL ON</button>
+   data-key="sell">
+   SELL ON
+  </button>
 
   <button class="btn on"
    data-scanner="booster"
-   data-key="pdh">PDH ON</button>
+   data-key="pdh">
+   PDH ON
+  </button>
 
   <button class="btn on"
    data-scanner="booster"
-   data-key="pdl">PDL ON</button>
+   data-key="pdl">
+   PDL ON
+  </button>
 
  </div>
 
@@ -182,28 +304,63 @@ body{
 </div>
 
 
-<!-- INSTITUTIONAL FLOW -->
+<!-- =====================================================
+     2. INSTITUTIONAL FLOW
+     ===================================================== -->
+
 <div class="scanner">
 
- <div class="scanner-title">🏦 INSTITUTIONAL FLOW</div>
+ <div class="scanner-title">
+  🏦 INSTITUTIONAL FLOW
+ </div>
+
+ <div class="logic">
+
+  <b>INDEPENDENT PRICE + OI LOGIC</b><br>
+
+  Price + OI • OI Change • Volume + OI Confirmation
+
+  <br><br>
+
+  <b>Long Buildup:</b> Price ↑ + OI ↑
+  <br>
+  <b>Short Buildup:</b> Price ↓ + OI ↑
+  <br>
+  <b>Short Covering:</b> Price ↑ + OI ↓
+  <br>
+  <b>Long Unwinding:</b> Price ↓ + OI ↓
+
+  <br><br>
+
+  This scanner does NOT use Scanner 1 RVOL logic.
+
+ </div>
 
  <div class="controls">
 
   <button class="btn on"
    data-scanner="flow"
-   data-key="buy">BUY ON</button>
+   data-key="buy">
+   BUY ON
+  </button>
 
   <button class="btn on"
    data-scanner="flow"
-   data-key="sell">SELL ON</button>
+   data-key="sell">
+   SELL ON
+  </button>
 
   <button class="btn on"
    data-scanner="flow"
-   data-key="pdh">PDH ON</button>
+   data-key="pdh">
+   PDH ON
+  </button>
 
   <button class="btn on"
    data-scanner="flow"
-   data-key="pdl">PDL ON</button>
+   data-key="pdl">
+   PDL ON
+  </button>
 
  </div>
 
@@ -212,10 +369,38 @@ body{
 </div>
 
 
-<!-- DOUBLE CONFIRMATION -->
+<!-- =====================================================
+     3. DOUBLE CONFIRMATION
+     ===================================================== -->
+
 <div class="scanner">
 
- <div class="scanner-title">🔥 DOUBLE CONFIRMATION</div>
+ <div class="scanner-title">
+  🔥 DOUBLE CONFIRMATION
+ </div>
+
+ <div class="logic">
+
+  Scanner 1 + Scanner 2 cross-confirmation.
+
+  <br><br>
+
+  <b>BUY:</b>
+  Scanner 1 BUY +
+  Long Buildup / Short Covering
+
+  <br>
+
+  <b>SELL:</b>
+  Scanner 1 SELL +
+  Short Buildup / Long Unwinding
+
+  <br><br>
+
+  Both scanners remain independent.
+  No logic is copied from one scanner into the other.
+
+ </div>
 
  <button
   id="doubleButton"
@@ -232,7 +417,8 @@ body{
 
 
 <div class="footer">
- F&O universe • No sector classification • Pass time locked
+ F&O universe • No sector classification •
+ Pass time locked • Today only
 </div>
 
 </div>
@@ -242,6 +428,7 @@ body{
 
 /* =====================================================
    F&O UNIVERSE
+   EXACT LIST FROM ORIGINAL HTML
    ===================================================== */
 
 const FO_STOCKS = [
@@ -278,6 +465,7 @@ const FO_STOCKS = [
 "TECHM","FEDERALBNK","INDIACEM","INDHOTEL","RAMCOCEM","TITAN",
 "TORNTPHARM","TRENT","TVSMOTOR","ULTRACEMCO","UBL","MCDOWELL-N",
 "UPL","VEDL","IDEA","VOLTAS","WHIRLPOOL","WIPRO","ZEEL","ZYDUSLIFE"
+
 ];
 
 
@@ -302,57 +490,109 @@ const settings={
  },
 
  double:true
+
 };
 
 
 /* =====================================================
-   LIVE DATA WILL COME HERE
-   ===================================================== */
+   LIVE DATA CONTRACT
+   =====================================================
 
-/*
-   IMPORTANT:
+   Backend must send TWO SEPARATE arrays.
 
-   खाली fake LTP/RVOL ठेवलेले नाहीत.
-
-   Backend/API जोडल्यावर प्रत्येक F&O stock साठी:
+   1) PRICE + VOLUME
 
    {
-      symbol,
-      ltp,
-      rvol,
-      side,
-      level,
-      passTime
+      scanner:"booster",
+      symbol:"RELIANCE",
+      ltp:1234.50,
+      rvol:1.35,
+      volumeAccel:1.42,
+      vwap:1228.20,
+      ema20:1230.10,
+      ema50:1219.80,
+      pdh:1240.00,
+      pdl:1205.00,
+      level:"PDH",
+      momentum:0.82,
+      side:"BUY",
+      passTime:"09:35"
    }
 
-   येईल.
+   RVOL MUST be:
+   20D SAME-TIME 5M CUMULATIVE RVOL.
 
-   त्यामुळे app fake signal दाखवणार नाही.
-*/
+   2) INSTITUTIONAL / OI
+
+   {
+      scanner:"flow",
+      symbol:"RELIANCE",
+      ltp:1234.50,
+      oi:12345678,
+      oiChange:2.85,
+      priceChange:0.91,
+      volume:456789,
+      type:"LONG BUILDUP",
+      confirmation:"VOLUME + OI",
+      rank:1,
+      level:"PDH",
+      side:"BUY"
+   }
+
+   Scanner 2 does NOT use Scanner 1 RVOL.
+
+   ===================================================== */
+
+
+/* =====================================================
+   SEPARATE LIVE DATA ARRAYS
+   ===================================================== */
+
+let priceVolumeData=[];
+
+let institutionalOIData=[];
+
+
+/* =====================================================
+   COMPATIBILITY DATA
+   ===================================================== */
 
 let liveData=[];
 
 
 /* =====================================================
-   STOCK CARD
+   HELPERS
    ===================================================== */
 
-function card(stock){
+function sideClass(side){
 
- const sideClass=
-   stock.side==="BUY" ? "buy" :
-   stock.side==="SELL" ? "sell" : "confirmed";
+ if(side==="BUY") return "buy";
 
- const badgeClass=
-   stock.side==="BUY"
-    ? "buy-badge"
-    : stock.side==="SELL"
-    ? "sell-badge"
-    : "confirm-badge";
+ if(side==="SELL") return "sell";
+
+ return "confirmed";
+}
+
+
+function badgeClass(side){
+
+ if(side==="BUY") return "buy-badge";
+
+ if(side==="SELL") return "sell-badge";
+
+ return "confirm-badge";
+}
+
+
+/* =====================================================
+   PRICE + VOLUME CARD
+   ===================================================== */
+
+function priceCard(stock){
 
  return `
 
- <div class="stock ${sideClass}">
+ <div class="stock ${sideClass(stock.side)}">
 
   <div class="row">
 
@@ -360,8 +600,8 @@ function card(stock){
     ${stock.symbol}
    </div>
 
-   <div class="badge ${badgeClass}">
-    ${stock.side}
+   <div class="badge ${badgeClass(stock.side)}">
+    ${stock.side || "--"}
    </div>
 
   </div>
@@ -386,6 +626,102 @@ function card(stock){
 
   </div>
 
+  <div class="info">
+
+   <span>
+    VA ${stock.volumeAccel ?? "--"}
+   </span>
+
+   <span>
+    VWAP ${stock.vwap ?? "--"}
+   </span>
+
+   <span>
+    EMA20 ${stock.ema20 ?? "--"}
+   </span>
+
+   <span>
+    EMA50 ${stock.ema50 ?? "--"}
+   </span>
+
+  </div>
+
+ </div>
+
+ `;
+}
+
+
+/* =====================================================
+   INSTITUTIONAL / OI CARD
+   ===================================================== */
+
+function flowCard(stock){
+
+ const isBuy=
+   stock.type==="LONG BUILDUP" ||
+   stock.type==="SHORT COVERING";
+
+ const side=
+   stock.side ||
+   (isBuy ? "BUY":"SELL");
+
+ return `
+
+ <div class="stock ${sideClass(side)}">
+
+  <div class="row">
+
+   <div class="name">
+    ${stock.symbol}
+   </div>
+
+   <div class="badge ${badgeClass(side)}">
+    ${stock.type || "--"}
+   </div>
+
+  </div>
+
+  <div class="info">
+
+   <span>
+    LTP ${stock.ltp ?? "--"}
+   </span>
+
+   <span>
+    OI ${stock.oiChange ?? "--"}%
+   </span>
+
+   <span>
+    ${stock.confirmation ?? "--"}
+   </span>
+
+   <span>
+    RANK ${stock.rank ?? "--"}
+   </span>
+
+  </div>
+
+  <div class="info">
+
+   <span>
+    PRICE ${stock.priceChange ?? "--"}%
+   </span>
+
+   <span>
+    VOL ${stock.volume ?? "--"}
+   </span>
+
+   <span>
+    ${stock.level ?? "--"}
+   </span>
+
+   <span class="pass">
+    TIME ${stock.passTime ?? "--"}
+   </span>
+
+  </div>
+
  </div>
 
  `;
@@ -397,6 +733,8 @@ function card(stock){
    ===================================================== */
 
 function allowed(stock,type){
+
+ if(!settings[type]) return true;
 
  if(stock.side==="BUY" &&
     !settings[type].buy)
@@ -419,39 +757,79 @@ function allowed(stock,type){
 
 
 /* =====================================================
-   RENDER
+   NORMALIZE LIVE DATA
    ===================================================== */
 
-function render(){
+function normalizeData(){
 
- const booster=
-   liveData.filter(x=>allowed(x,"booster"));
+ liveData=[
+   ...priceVolumeData,
+   ...institutionalOIData
+ ];
 
- const flow=
-   liveData.filter(x=>allowed(x,"flow"));
-
-
- document.getElementById("booster").innerHTML=
-
-   booster.length
-    ? `<div class="count">${booster.length} F&O signals</div>`+
-      booster.map(card).join("")
-    : `<div class="empty">
-         Waiting for live F&O scanner data
-       </div>`;
+}
 
 
- document.getElementById("flow").innerHTML=
+/* =====================================================
+   RENDER PRICE + VOLUME
+   ===================================================== */
 
-   flow.length
-    ? `<div class="count">${flow.length} F&O signals</div>`+
-      flow.map(card).join("")
-    : `<div class="empty">
-         Waiting for live F&O scanner data
-       </div>`;
+function renderBooster(){
+
+ const data=
+   priceVolumeData
+   .filter(x=>allowed(x,"booster"));
+
+ const box=
+   document.getElementById("booster");
+
+ if(!data.length){
+
+  box.innerHTML=
+   `<div class="empty">
+      Waiting for live Price + Volume scanner data
+    </div>`;
+
+  return;
+ }
+
+ box.innerHTML=
+   `<div class="count">
+      ${data.length} F&O signals
+    </div>`+
+   data.map(priceCard).join("");
+
+}
 
 
- renderDouble();
+/* =====================================================
+   RENDER INSTITUTIONAL FLOW
+   ===================================================== */
+
+function renderFlow(){
+
+ const data=
+   institutionalOIData
+   .filter(x=>allowed(x,"flow"));
+
+ const box=
+   document.getElementById("flow");
+
+ if(!data.length){
+
+  box.innerHTML=
+   `<div class="empty">
+      Waiting for live Institutional / OI scanner data
+    </div>`;
+
+  return;
+ }
+
+ box.innerHTML=
+   `<div class="count">
+      ${data.length} Institutional signals
+    </div>`+
+   data.map(flowCard).join("");
 
 }
 
@@ -476,66 +854,154 @@ function renderDouble(){
  }
 
 
- /*
-   Same stock + same direction
-   from Booster + Flow.
- */
-
  const confirmed=[];
 
- const symbols=
-   [...new Set(liveData.map(x=>x.symbol))];
+
+ /*
+   Scanner 1 BUY
+   +
+   Scanner 2 LONG BUILDUP / SHORT COVERING
+   = BUY CONFIRMATION
+
+   Scanner 1 SELL
+   +
+   Scanner 2 SHORT BUILDUP / LONG UNWINDING
+   = SELL CONFIRMATION
+ */
 
 
- symbols.forEach(symbol=>{
+ priceVolumeData.forEach(price=>{
 
-  const rows=
-   liveData.filter(x=>x.symbol===symbol);
-
-  const buys=
-   rows.filter(x=>x.side==="BUY");
-
-  const sells=
-   rows.filter(x=>x.side==="SELL");
+  if(price.side!=="BUY" &&
+     price.side!=="SELL")
+   return;
 
 
-  if(buys.length>=2){
-
-   confirmed.push({
-    symbol,
-    side:"BUY",
-    ltp:buys[0].ltp,
-    rvol:buys[0].rvol,
-    level:"CONFIRMED",
-    passTime:buys[0].passTime
-   });
-
-  }
+  const matches=
+   institutionalOIData.filter(
+    oi=>oi.symbol===price.symbol
+   );
 
 
-  if(sells.length>=2){
+  matches.forEach(oi=>{
 
-   confirmed.push({
-    symbol,
-    side:"SELL",
-    ltp:sells[0].ltp,
-    rvol:sells[0].rvol,
-    level:"CONFIRMED",
-    passTime:sells[0].passTime
-   });
+   const buyOI=
+    oi.type==="LONG BUILDUP" ||
+    oi.type==="SHORT COVERING";
 
-  }
+   const sellOI=
+    oi.type==="SHORT BUILDUP" ||
+    oi.type==="LONG UNWINDING";
+
+
+   if(price.side==="BUY" && buyOI){
+
+    confirmed.push({
+     symbol:price.symbol,
+     side:"BUY",
+     ltp:price.ltp,
+     rvol:price.rvol,
+     level:"CONFIRMED",
+     passTime:price.passTime,
+     oiType:oi.type,
+     rank:oi.rank
+    });
+
+   }
+
+
+   if(price.side==="SELL" && sellOI){
+
+    confirmed.push({
+     symbol:price.symbol,
+     side:"SELL",
+     ltp:price.ltp,
+     rvol:price.rvol,
+     level:"CONFIRMED",
+     passTime:price.passTime,
+     oiType:oi.type,
+     rank:oi.rank
+    });
+
+   }
+
+  });
 
  });
 
 
- box.innerHTML=
+ if(!confirmed.length){
 
-  confirmed.length
-   ? confirmed.map(card).join("")
-   : `<div class="empty">
-        No double confirmation
-      </div>`;
+  box.innerHTML=
+   `<div class="empty">
+      No double confirmation
+    </div>`;
+
+  return;
+ }
+
+
+ box.innerHTML=
+   `<div class="count">
+      ${confirmed.length} confirmed signals
+    </div>`+
+   confirmed.map(x=>`
+
+    <div class="stock confirmed">
+
+     <div class="row">
+
+      <div class="name">
+       ${x.symbol}
+      </div>
+
+      <div class="badge confirm-badge">
+       ${x.side} CONFIRMED
+      </div>
+
+     </div>
+
+     <div class="info">
+
+      <span>
+       LTP ${x.ltp ?? "--"}
+      </span>
+
+      <span>
+       RVOL ${x.rvol ?? "--"}
+      </span>
+
+      <span>
+       OI ${x.oiType ?? "--"}
+      </span>
+
+      <span class="pass">
+       PASS ${x.passTime ?? "--"}
+      </span>
+
+     </div>
+
+    </div>
+
+   `).join("");
+
+}
+
+
+/* =====================================================
+   RENDER ALL
+   ===================================================== */
+
+function render(){
+
+ normalizeData();
+
+ renderBooster();
+
+ renderFlow();
+
+ renderDouble();
+
 }
 
 
@@ -590,18 +1056,89 @@ document
    settings[scanner][key];
 
 
-  button.classList.toggle("on",on);
-  button.classList.toggle("off",!on);
+  button.classList.toggle(
+   "on",
+   on
+  );
+
+  button.classList.toggle(
+   "off",
+   !on
+  );
+
 
   button.textContent=
    key.toUpperCase()+
    (on ? " ON":" OFF");
+
 
   render();
 
  });
 
 });
+
+
+/* =====================================================
+   LIVE ENGINE INPUT
+   =====================================================
+
+   Backend integration should call:
+
+   setPriceVolumeData(array)
+   setInstitutionalOIData(array)
+
+   These are deliberately separate.
+
+   ===================================================== */
+
+
+function setPriceVolumeData(data){
+
+ if(!Array.isArray(data))
+  return;
+
+ priceVolumeData=
+  data.filter(x=>
+   FO_STOCKS.includes(x.symbol)
+  );
+
+ render();
+
+}
+
+
+function setInstitutionalOIData(data){
+
+ if(!Array.isArray(data))
+  return;
+
+ institutionalOIData=
+  data.filter(x=>
+   FO_STOCKS.includes(x.symbol)
+  );
+
+ render();
+
+}
+
+
+/* =====================================================
+   OPTIONAL WINDOW API
+   =====================================================
+
+   Backend/WebSocket can update the page with:
+
+   window.setPriceVolumeData(data)
+   window.setInstitutionalOIData(data)
+
+   ===================================================== */
+
+window.setPriceVolumeData=
+ setPriceVolumeData;
+
+window.setInstitutionalOIData=
+ setInstitutionalOIData;
 
 
 /* =====================================================
